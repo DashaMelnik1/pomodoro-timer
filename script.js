@@ -29,13 +29,7 @@ button.addEventListener('click', function() {
             }
             if (seconds === 0 && minutes === 0) {
                 clearInterval(timerId);
-                if (timerMode == 'pomodoro') {
-                    seconds = 0;
-                    minutes = 25;
-                } else if (timerMode == 'break') {
-                    seconds = 0;
-                    minutes = 5;
-                }
+                pomodoroOrBreak();
                 button.textContent = 'start';
                 return pomodoroTime.textContent = `${format(minutes)}:${format(seconds)}`;
             }
@@ -49,6 +43,8 @@ button.addEventListener('click', function() {
 });
 
 buttonPomodoro.addEventListener('click', function() {
+    buttonBreak.classList.remove('active');
+    buttonPomodoro.classList.add('active');
     clearInterval(timerId);
     seconds = 0;
     minutes = 25;
@@ -58,6 +54,8 @@ buttonPomodoro.addEventListener('click', function() {
 })
 
 buttonBreak.addEventListener('click', function() {
+    buttonBreak.classList.add('active');
+    buttonPomodoro.classList.remove('active');
     clearInterval(timerId);
     seconds = 0;
     minutes = 5;
@@ -68,6 +66,12 @@ buttonBreak.addEventListener('click', function() {
 
 buttonReset.addEventListener('click', function() {
     clearInterval(timerId);
+    pomodoroOrBreak();
+    button.textContent = 'start';
+    pomodoroTime.textContent = `${format(minutes)}:${format(seconds)}`;
+})
+
+function pomodoroOrBreak() {
     if (timerMode == 'pomodoro') {
         seconds = 0;
         minutes = 25;
@@ -75,6 +79,4 @@ buttonReset.addEventListener('click', function() {
         seconds = 0;
         minutes = 5;
     }
-    button.textContent = 'start';
-    pomodoroTime.textContent = `${format(minutes)}:${format(seconds)}`;
-})
+}
